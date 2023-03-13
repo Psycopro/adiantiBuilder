@@ -1,0 +1,23 @@
+<?php
+
+## 1. No formulário, inserimos um component TRadioGroup, criamos um nome (ex: filtros_rapidos), e adicionamos na caixa de seleção as variáveis que usaremos.
+## 2. As regras de carregamento ficam em branco, pois serão configuradas manualmente, via código.
+## 3. Criamos os botões de ação na página, definimos seus rótulos e criamos um evento para cada botão (ex: onFiltrarContasPagas)
+## 4. No código-fonte da listagem, na seção classProperties, criamos novas propriedades para serem chamadas nos eventos que criamos, exemplo:
+
+private $filtrarContasPagas = false
+  
+## 5. Em seguida vamos configurar os eventos criados nos botões de ação. Nesses eventos acionaremos as propriedades que inserimos em classProperties, e chamaremos o método onSearch passando um array vazio; exemplo:
+
+$this->filtrarContasPagas = true;
+$this->onSearch([]);
+
+## 6. Os filtros serão definidos na seção onDatagridSearch. Para que a ação seja chamada tanto no botão, quanto no filtro, utilizamos um 'OR' no IF; exemplo:
+
+if ($this->filtrarContasPagas or $data->filtros_rapidos == 'abertos'')
+{
+  $data->filtros_rapidos = 'abertos';
+  $filters[] = new TFilter('situacaoParcela', '=', 'pago');
+}
+
+?>
